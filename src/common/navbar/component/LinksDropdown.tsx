@@ -11,6 +11,7 @@ import UserIcon from "./UserIcon";
 import { links } from "@/src/utils/constants/common";
 import Link from "next/link";
 import SignOutLink from "./SignOutLink";
+import { SignedIn,SignedOut ,SignInButton,SignUpButton} from "@clerk/nextjs";
 const LinksDropdown = () => {
   return (
     <DropdownMenu>
@@ -21,6 +22,20 @@ const LinksDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52 " align="start" sideOffset={10}>
+        <SignedOut>
+          <DropdownMenuItem>
+            <SignInButton mode="modal">
+              <button className="w-full text-left">SignIn</button>
+            </SignInButton>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator/>
+          <DropdownMenuItem>
+            <SignUpButton mode="modal">
+              <button className="w-full text-left">Register</button>
+            </SignUpButton>
+          </DropdownMenuItem>
+        </SignedOut>
+        <SignedIn>
         {links?.map((i) => {
           return (
             <DropdownMenuItem key={i.href}>
@@ -30,6 +45,12 @@ const LinksDropdown = () => {
             </DropdownMenuItem>
           );
         })}
+        {/* seperator */}
+        <DropdownMenuItem>
+          <SignOutLink/>
+        </DropdownMenuItem>
+        </SignedIn>
+      
       </DropdownMenuContent>
     </DropdownMenu>
   );
