@@ -25,7 +25,7 @@ const LinksDropdown = () => {
         <SignedOut>
           <DropdownMenuItem>
             <SignInButton mode="modal">
-              <button className="w-full text-left">SignIn</button>
+              <button className="w-full text-left">Sign In</button>
             </SignInButton>
           </DropdownMenuItem>
           <DropdownMenuSeparator/>
