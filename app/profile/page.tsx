@@ -1,7 +1,8 @@
+import ProfilePageScreen from "@/src/screens/profile"
 
 const profilePage = () => {
   return (
-    <div>profilePage</div>
+   <ProfilePageScreen/>
   )
 }
 
