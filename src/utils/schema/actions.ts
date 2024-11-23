@@ -1,10 +1,11 @@
 "use server";
 
-import { profileSchema } from "./schemas";
+import { imageSchema, profileSchema, validateZodSchema } from "./schemas";
 import db from "../db/db";
 import { clerkClient, auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { uploadImage } from "../supabase/supabase";
 
 // get auth user
 
@@ -35,7 +36,7 @@ export const createProfileAction = async (
     if (!user) throw new Error("Please Login to create a profile");
 
     const rawData = Object.fromEntries(formData);
-    const validatedFields = profileSchema.parse(rawData);
+    const validatedFields = validateZodSchema(profileSchema, rawData);
     await db.profile.create({
       data: {
         clerkID: user.id,
@@ -92,8 +93,7 @@ export const updateProfileAction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
-    const validatedFields = profileSchema.parse(rawData);
-
+    const validatedFields = validateZodSchema(profileSchema, rawData);
     await db.profile.update({
       where: {
         clerkID: user.id,
@@ -102,6 +102,33 @@ export const updateProfileAction = async (
     });
     revalidatePath("/profile");
     return { message: "Profile updated successfully" };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+// update profile Image
+
+export const updateProfileImageAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+  try {
+    const image = formData.get('image') as File;
+    const validatedFields = validateZodSchema(imageSchema, { image });
+    const fullPath = await uploadImage(validatedFields.image);
+
+    await db.profile.update({
+      where: {
+        clerkID: user.id,
+      },
+      data: {
+        profileImage: fullPath,
+      },
+    });
+    revalidatePath('/profile');
+    return { message: 'Profile image updated successfully' };
   } catch (error) {
     return renderError(error);
   }
