@@ -1,7 +1,7 @@
 import SubmitButton from "@/src/common/form/Buttons";
 import FormContainer from "@/src/common/form/FormContainer";
 import FormInput from "@/src/common/form/FormInput";
-import { createProfileAction } from "@/src/utils/schema/actions";
+import { createProfileAction } from "@/src/utils/actions/actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 const CreateProfileScreen = async () => {

@@ -1,8 +1,5 @@
 import { INavLink } from "../types/common";
 
-
-
-
 // nav link
 export const links: INavLink[] = [
   {

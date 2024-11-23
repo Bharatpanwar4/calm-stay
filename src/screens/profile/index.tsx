@@ -6,7 +6,7 @@ import {
   fetchProfile,
   updateProfileAction,
   updateProfileImageAction,
-} from "@/src/utils/schema/actions";
+} from "@/src/utils/actions/actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 const ProfilePageScreen = async () => {

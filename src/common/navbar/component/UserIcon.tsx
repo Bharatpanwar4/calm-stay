@@ -1,4 +1,4 @@
-import { fetchProfileImage } from '@/src/utils/schema/actions'
+import { fetchProfileImage } from '@/src/utils/actions/actions'
 import {LuUser2} from 'react-icons/lu'
 const UserIcon = async () => {
   const profileImage= await fetchProfileImage();
