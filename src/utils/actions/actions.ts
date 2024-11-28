@@ -148,16 +148,23 @@ export const createPropertyAction = async (
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
   try {
-    const rawData=Object.fromEntries(formData)
-    const validatedFields=validateZodSchema(propertySchema,rawData)
-    // await db.property.create({
-    //   data:{
+    const rawData = Object.fromEntries(formData);
+    const file = formData.get('image') as File;
+    console.log(rawData);
 
-    //   }
-    // })
-    return {message:'property created'}
+    const validatedFields = validateZodSchema(propertySchema, rawData);
+    const validatedFile = validateZodSchema(imageSchema, { image: file });
+    const fullPath = await uploadImage(validatedFile.image);
+
+    await db.property.create({
+      data: {
+        ...validatedFields,
+        image: fullPath,
+        profileId: user.id,
+      },
+    });
   } catch (error) {
-    return renderError(error)
+    return renderError(error);
   }
-  // redirect('/')
+  redirect('/');
 };

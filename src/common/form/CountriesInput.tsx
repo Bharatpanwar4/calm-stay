@@ -29,7 +29,7 @@ const CountriesInput = ({ defaultValue }: { defaultValue?: string }) => {
               <SelectItem key={i.code} value={i.code}>
                 <span className="flex items-center gap-2">
                   {" "}
-                  {i.flag} {i.name}
+               {i.flag} {i.name}
                 </span>
               </SelectItem>
             );

@@ -1,6 +1,8 @@
 import SubmitButton from "@/src/common/form/Buttons";
 import CategoriesInput from "@/src/common/form/CategoriesInput";
+import CounterInput from "@/src/common/form/CounterInput";
 import CountriesInput from "@/src/common/form/CountriesInput";
+import FacilitiesInput from "@/src/common/form/FacilitiesInput";
 import FormContainer from "@/src/common/form/FormContainer";
 import FormInput from "@/src/common/form/FormInput";
 import ImageInput from "@/src/common/form/ImageInput";
@@ -31,16 +33,30 @@ const CreatePropertyPageScreen = () => {
               label="Tagline (30 limit)"
               defaultValue="Like Home"
             />
-            <PriceInput
-            />
-            <CategoriesInput/>
+            <PriceInput />
+            <CategoriesInput />
           </div>
 
-<TextAreaInput name="description" labelText="Decription (10-1000 words)"/>
-<div className="grid md:grid-cols-2 gap-8 mt-4">
-<CountriesInput/>
-<ImageInput/>
-</div>
+          <TextAreaInput
+            name="description"
+            labelText="Decription (10-1000 words)"
+          />
+          <div className="grid md:grid-cols-2 gap-8 mt-4">
+            <CountriesInput defaultValue={'IN'} />
+            <ImageInput />
+          </div>
+
+<h3 className="text-lg mt-8 mb-4 font-medium">Accommodation Details</h3>
+<CounterInput detail="guests"/>
+<CounterInput detail="bedrooms"/>
+<CounterInput detail="beds"/>
+<CounterInput detail="baths"/>
+
+
+<h3 className="text-lg mt-8 mb-6 font-medium">Facilites</h3>
+<FacilitiesInput/>
+
+
           <SubmitButton className="mt-12" text="Create Rental" />
         </FormContainer>
       </div>
