@@ -1,13 +1,9 @@
-import { Button } from "@/components/ui/button"
+import HomeScreen from "@/src/screens/home"
 
-function HomePage() {
+function HomePage({searchParams}:{searchParams:{category?:string; search?:string;}}) {
   return (
-    <div>
- <h1 className='text-3xl'>
-      HomePage
-    </h1>
-    <Button variant={'outline'}  className="capitalize m-8">Click Me</Button>
-    </div>
+    
+ <HomeScreen searchParams={searchParams} />
    
   )
 }
