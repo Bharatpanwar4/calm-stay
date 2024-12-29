@@ -1,13 +1,17 @@
-import { Button } from '@/components/ui/button'
-import { IPropertyCardProps } from '@/src/utils/types/common'
-import {FaHeart} from 'react-icons/fa'
+import { Button } from "@/components/ui/button";
+import { IPropertyCardProps } from "@/src/utils/types/common";
+import { auth } from "@clerk/nextjs/server";
+import { FaHeart } from "react-icons/fa";
+import { CardSignInButton } from "../form/Buttons";
+import { fetchFovoriteId } from "@/src/utils/actions/actions";
+import FavoriteToggleForm from "./FavoriteToggleForm";
 
-const FavoriteToggleButton = ({property}:{property:IPropertyCardProps}) => {
-  return (
-    <Button size={'icon'} variant={'outline'} className='p-2 cursor-pointer'>
-      <FaHeart/>
-    </Button>
-  )
-}
+const FavoriteToggleButton = async ({ propertyId }: { propertyId: string }) => {
+  const { userId } = auth();
+  if (!userId) return <CardSignInButton />;
 
-export default FavoriteToggleButton
+  const favoriteId = await fetchFovoriteId({ propertyId });
+  return <FavoriteToggleForm favoriteId={favoriteId} propertyId={propertyId} />;
+};
+
+export default FavoriteToggleButton;

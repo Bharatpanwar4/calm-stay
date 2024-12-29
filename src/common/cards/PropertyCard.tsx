@@ -45,7 +45,7 @@ const PropertyCard = ({ property }: { property: IPropertyCardProps }) => {
       </Link>
       <div className="absolute top-5 z-5 right-5 ">
         {/* fav */}
-        <FavoriteToggleButton property={property} />
+        <FavoriteToggleButton propertyId={property?.id} />
       </div>
     </article>
   );

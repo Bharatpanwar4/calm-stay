@@ -1,7 +1,8 @@
+import FavouritesPageScreen from "@/src/screens/favorities"
 
 const favouritesPage = () => {
   return (
-    <div>favouritesPage</div>
+    <FavouritesPageScreen/>
   )
 }
 

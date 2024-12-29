@@ -178,14 +178,14 @@ export const fetchProperties = async ({
   search?: string;
   category?: string;
 }) => {
-  const properties = await db.property.findMany({
+  const properties = await db?.property?.findMany({
     select: {
       id: true,
       name: true,
       price: true,
       country: true,
       tagline: true,
-      image:true,
+      image: true,
     },
     where: {
       category,
@@ -200,4 +200,77 @@ export const fetchProperties = async ({
   });
 
   return properties;
+};
+
+// get favorites
+
+export const fetchFovoriteId = async ({
+  propertyId,
+}: {
+  propertyId: string;
+}) => {
+  const user = await getAuthUser();
+  const favorite = await db?.favorite?.findFirst({
+    where: {
+      propertyId,
+      profileId: user?.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return favorite?.id || null;
+};
+
+export const toggleFavoriteAction = async (prevState: {
+  propertyId: string;
+  favoriteId: string | null;
+  pathname: string;
+}) => {
+  const user = await getAuthUser();
+  const { favoriteId, pathname, propertyId } = prevState;
+  try {
+    if (favoriteId) {
+      await db?.favorite?.delete({
+        where: {
+          id: favoriteId,
+        },
+      });
+    } else {
+      await db?.favorite?.create({
+        data: {
+          propertyId,
+          profileId: user?.id,
+        },
+      });
+    }
+    revalidatePath(pathname);
+    return {
+      message: favoriteId ? "Removed from Favorites" : "Added to Favorites",
+    };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+// fetch fav
+export const fetchFavorities = async () => {
+  const user = await getAuthUser();
+  const favorites = await db?.favorite?.findMany({
+    where: {
+      profileId: user?.id,
+    },
+    select: {
+      property: {
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          country: true,
+          tagline: true,
+          image: true,
+        },
+      },
+    },
+  });
+  return favorites?.map((favorite)=>favorite?.property)
 };
